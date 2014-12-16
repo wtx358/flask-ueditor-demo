@@ -94,10 +94,14 @@ def upload():
             "oriName": "remote.png"
         }
         fieldName = CONFIG['catcherFieldName']
+
         if fieldName in request.form:
+            # 这里比较奇怪，远程抓图提交的表单名称不是这个
             source = []
         elif '%s[]' % fieldName in request.form:
+            # 而是这个
             source = request.form.getlist('%s[]' % fieldName)
+
         _list = []
         for imgurl in source:
             uploader = Uploader(imgurl, config, app.static_folder, 'remote')
@@ -108,6 +112,7 @@ def upload():
                 'original': info['original'],
                 'source': imgurl,
             })
+
         result['state'] = 'SUCCESS' if len(_list) > 0 else 'ERROR'
         result['list'] = _list
 
