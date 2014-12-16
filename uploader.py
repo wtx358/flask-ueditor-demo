@@ -41,7 +41,7 @@ class Uploader:
 
     def __init__(self, fileobj, config, static_folder, _type=None):
         """
-        :param fileobj: FileStorage or Base64Encode Data
+        :param fileobj: FileStorage, Base64Encode Data or Image URL
         :param config: 配置信息
         :param static_folder: 文件保存的目录
         :param _type: 上传动作的类型，base64，remote，其它
