@@ -114,8 +114,15 @@ def upload():
     else:
         result['state'] = '请求地址出错'
 
-    print result
-    return json.dumps(result)
+    result = json.dumps(result)
+
+    if 'callback' in request.args:
+        callback = request.args.get('callback')
+        if re.match(r'^[\w_]+$', callback):
+            return '%s(%s)' % (callback, result)
+        return json.dumps({'state': 'callback参数不合法'})
+
+    return result
 
 
 if __name__ == '__main__':
