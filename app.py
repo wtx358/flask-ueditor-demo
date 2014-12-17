@@ -4,7 +4,7 @@ import os
 import re
 import json
 
-from flask import Flask, request, render_template, url_for
+from flask import Flask, request, render_template, url_for, make_response
 
 from uploader import Uploader
 
@@ -16,7 +16,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/upload/', methods=['GET', 'POST'])
+@app.route('/upload/', methods=['GET', 'POST', 'OPTIONS'])
 def upload():
     """UEditor文件上传接口
 
@@ -127,7 +127,10 @@ def upload():
             return '%s(%s)' % (callback, result)
         return json.dumps({'state': 'callback参数不合法'})
 
-    return result
+    res = make_response(result)
+    res.headers['Access-Control-Allow-Origin'] = '*'
+    res.headers['Access-Control-Allow-Headers'] = 'X-Requested-With,X_Requested_With'
+    return res
 
 
 if __name__ == '__main__':

@@ -224,9 +224,10 @@ class Uploader:
 
     def getFileInfo(self):
         # 获取当前上传成功文件的各项信息
+        filename = re.sub(r'^/', '', self.fullName)
         return {
             'state': self.stateInfo,
-            'url': url_for('static', filename=self.fullName).replace('//', '/'),
+            'url': url_for('static', filename=filename, _external=True),
             'title': self.oriName,
             'original': self.oriName,
             'type': self.fileType,
